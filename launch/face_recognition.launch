@@ -13,7 +13,7 @@
 
   <include file="$(find opencv_apps)/launch/face_detection.launch"
            if="$(arg launch_face_detection)">
-    <arg name="image" value="$(arg image)" />
+    <arg name="image" value="/camera/rgb/image_raw" />
     <arg name="debug_view" value="$(arg debug_view)" />
     <arg name="node_name" value="face_detection" />
     <arg name="use_opencv3" value="$(arg use_opencv3)" />
@@ -25,13 +25,13 @@
   <node name="face_recognition" pkg="opencv_apps" type="face_recognition"
         output="screen">
     <param name="data_dir" value="$(arg data_dir)" />
-    <remap from="image" to="$(arg image)" />
+    <remap from="image" to="/camera/rgb/image_raw" />
     <remap from="faces" to="face_detection/faces" />
   </node>
 
   <node name="face_recognition_trainer" pkg="opencv_apps" type="face_recognition_trainer.py"
         if="$(arg launch_trainer)" launch-prefix="xterm -fn 12x24 -e" respawn="true">
-    <remap from="image" to="$(arg image)" />
+    <remap from="image" to="/camera/rgb/image_raw" />
     <remap from="faces" to="face_detection/faces" />
     <remap from="train" to="face_recognition/train" />
   </node>
